@@ -27,16 +27,27 @@ int main()
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	wcout << L"Введите название входного файла: ";
-	string inFileName;
-	cin >> inFileName;
-	ifstream ifs(inFileName);
-	if (!ifs)
-	{
-		std::wstring wsTmp(inFileName.begin(), inFileName.end());
-		wcerr << L"Не получилось открыть файл: " << wsTmp << endl;
-		exit(1);
-	}
+//	wcout << L"Введите название файла с физическими силами: ";
+//	string inFileNamePower;
+//	cin >> inFileNamePower;
+//	ifstream ifsPower(inFileNamePower);
+//	if (!ifsPower)
+//	{
+//		std::wstring wsTmp(inFileNamePower.begin(), inFileNamePower.end());
+//		wcerr << L"Не получилось открыть файл: " << wsTmp << endl;
+//		exit(1);
+//	}
+//
+//	wcout << L"Введите название входного файла с физиче: ";
+//	string inFileNameEffects;
+//	cin >> inFileNameEffects;
+//	ifstream ifsEffects(inFileNameEffects);
+//	if (!ifsPower)
+//	{
+//		std::wstring wsTmp(inFileNameEffects.begin(), inFileNameEffects.end());
+//		wcerr << L"Не получилось открыть файл: " << wsTmp << endl;
+//		exit(1);
+//	}
 
 	wcout << L"Введите название выходного файла: ";
 	string outFileName;
@@ -45,7 +56,8 @@ int main()
 
 
 
-	ifs.close();
+//	ifsPower.close();
+//	ifsEffects.close();
 	ofs.close();
 
 	return 0;
