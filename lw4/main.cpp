@@ -44,7 +44,10 @@ void searchWays(
 	way.push_back(input);
 	if (input == output)
 	{
-		ways.push_back(way);
+		if (way.size() > 1)
+		{
+			ways.push_back(way);
+		}
 		way.pop_back();
 		return;
 	}
@@ -202,6 +205,11 @@ std::vector<std::string> parsePhysicalQuantityFile(ifstream& ifs)
 
 void outputWays(std::vector<std::vector<int>>& ways, wofstream& wofs, std::vector<std::string>& quantityList, std::vector<EffectNode> effectNodes)
 {
+	if (ways.empty())
+	{
+		wofs << L"Нет связей" << endl;
+		return;
+	}
 	std::sort(ways.begin(), ways.end(), [](auto &way1, auto &way2){
 		return way1.size() < way2.size();
 	});
@@ -215,18 +223,18 @@ void outputWays(std::vector<std::vector<int>>& ways, wofstream& wofs, std::vecto
 				wofs << L" ==> ";
 			}
 			isFirst = false;
-			std::wstring ws(quantityList[quantity + 1].size(), L' ');
-			ws.resize(std::mbstowcs(&ws[0], quantityList[quantity + 1].c_str(), quantityList[quantity + 1].size()));
+			std::wstring ws(quantityList[quantity].size(), L' ');
+			ws.resize(std::mbstowcs(&ws[0], quantityList[quantity].c_str(), quantityList[quantity].size()));
 			wofs << ws;
 		}
 		wofs << endl;
 		for (int i = 0; i < way.size() - 1; i++)
 		{
 			wofs << L"Звено ";
-			std::wstring ws1(quantityList[way[i] + 1].size(), L' ');
-			ws1.resize(std::mbstowcs(&ws1[0], quantityList[way[i] + 1].c_str(), quantityList[way[i] + 1].size()));
-			std::wstring ws2(quantityList[way[i + 1] + 1].size(), L' ');
-			ws2.resize(std::mbstowcs(&ws2[0], quantityList[way[i + 1] + 1].c_str(), quantityList[way[i + 1] + 1].size()));
+			std::wstring ws1(quantityList[way[i]].size(), L' ');
+			ws1.resize(std::mbstowcs(&ws1[0], quantityList[way[i]].c_str(), quantityList[way[i]].size()));
+			std::wstring ws2(quantityList[way[i + 1]].size(), L' ');
+			ws2.resize(std::mbstowcs(&ws2[0], quantityList[way[i + 1]].c_str(), quantityList[way[i + 1]].size()));
 			wofs << to_wstring(i + 1) << ": " << ws1 << " ==> " << ws2 << endl;
 			for (auto& effect : effectNodes)
 			{
@@ -280,10 +288,21 @@ int main()
 	int input = 0;
 	int output = 0;
 
-	std::wcout << L"Введите input: ";
-	cin >> input;
-	std::wcout << L"Введите output: ";
-	cin >> output;
+	do
+	{
+		std::wcout << L"Введите входную величину: ";
+		cin >> input;
+		input--;
+	}
+	while (input < 0);
+	do
+	{
+		std::wcout << L"Введите выходную величину: ";
+		cin >> output;
+		output--;
+	}
+	while (output < 0);
+
 
 	wcout << L"Введите название выходного файла: ";
 	string outFileName;
