@@ -8,7 +8,12 @@
 //>
 //<Автор: Борисов Кирилл Александрович ПС-22 />
 //<Среда выполнения: Jetbrains CLion Runtime version: 17.0.8+7-b1000.8 amd64 />
-//<Источник информации: />
+//<Источник информации:
+// 1) https://github.com/dattanchu/bprinter/wiki
+// 2) https://www.youtube.com/watch?v=J-7MzbEtTR0&t=355s
+// 3) https://ru.wikipedia.org/wiki/Двоичная_куча
+// 4) http://mech.math.msu.su/~nap/2/2_18.html
+// />
 //}
 
 #include <windows.h>
