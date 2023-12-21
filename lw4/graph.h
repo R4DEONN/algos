@@ -1,7 +1,3 @@
-//
-// Created by admin on 16.11.2023.
-//
-
 #ifndef ALGOS_GRAPH_H
 #define ALGOS_GRAPH_H
 

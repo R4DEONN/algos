@@ -16,7 +16,7 @@ private:
 
 	void siftUp(int index);
 	void heapify(int index);
-	int parent(int index);
+	static int parent(int index);
 };
 
 

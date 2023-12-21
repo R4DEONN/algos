@@ -22,9 +22,10 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "BinaryHeap.h"
-#include "bprinter/table_printer.h"
-using namespace bprinter;
+//#include "bprinter/table_printer.h"
+//using namespace bprinter;
 
 using namespace std;
 
@@ -41,7 +42,7 @@ vector<vector<pair<int, int>>> readGraphFromFile(ifstream& ifs)
 		int from, to, weight;
 		ifs >> from >> to >> weight;
 
-		graph[from].emplace_back(to, weight);
+		graph[from - 1].emplace_back(to - 1, weight);
 	}
 
 	return graph;
@@ -52,6 +53,8 @@ int main()
 	setlocale(0, "");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
+
+	auto startTime = clock();
 
 	wcout << L"Введите название входного файла: ";
 	string inFileName;
@@ -72,39 +75,20 @@ int main()
 	vector<vector<pair<int, int>>> graph = readGraphFromFile(ifs);
 
 	int start;
-	ifs >> start;
+	int end;
+	ifs >> start >> end;
+	start--;
+	end--;
 
 	vector<int> dist(graph.size(), INF);
 	dist[start] = 0;
-
-	TablePrinter tp(&ofs);
-	tp.AddColumn("Num", 5);
-	for (int i = 0; i < graph.size(); i++)
-	{
-		tp.AddColumn(to_string(i), 10);
-	}
+	vector<int> from(graph.size(), -1);
 
 	BinaryHeap heap;
 	heap.push({dist[start], start});
-	tp.PrintHeader();
 
-	int num = 0;
 	while (!heap.empty())
 	{
-		tp << num;
-		num++;
-		for (auto d : dist)
-		{
-			if (d != INF)
-			{
-				tp << d;
-			}
-			else
-			{
-				tp << "X";
-			}
-		}
-		tp << bprinter::endl();
 		auto [nearestDist, nearest] = heap.top();
 		heap.pop();
 
@@ -113,9 +97,24 @@ int main()
 			if (dist[to] > dist[nearest] + weight)
 			{
 				dist[to] = dist[nearest] + weight;
+				from[to] = nearest;
 				heap.push({ dist[to], to });
 			}
 		}
 	}
-	tp.PrintFooter();
+	ofs << dist[end] << endl;
+	vector<int> path;
+	for (int v = end; v != -1; v = from[v])
+	{
+		path.push_back(v);
+	}
+	std::reverse(path.begin(), path.end());
+	for (int p : path)
+	{
+		ofs << p + 1 << " ";
+	}
+	ofs << endl;
+	unsigned int endTime = clock(); // конечное время
+	unsigned int search_time = endTime - startTime; // искомое время
+	cout << search_time / 1000;
 }
